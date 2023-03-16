@@ -1,8 +1,11 @@
-import os
+import os, configparser
 
 
 def main():
-    folder = 'BackgroundVideos'
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+    folder = config["General"]["BackgroundDirectory"]
+    prefix = config["General"]["BackgroundFilePrefix"]
 
     for count, filename in enumerate(os.listdir(folder)):
 
@@ -24,7 +27,7 @@ def main():
         if 'Rename' not in filename:
             continue
 
-        name = f'ShortTemplate_{str(count)}.mp4'
+        name = f'{prefix}{str(count)}.mp4'
         src = f'{folder}/{filename}'
         rename = f'{folder}/{name}'
 
