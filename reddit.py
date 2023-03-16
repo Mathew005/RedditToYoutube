@@ -1,10 +1,11 @@
-from imports import os, re, time
+from imports import os, re, time, configparser
 from imports import praw, markdown_to_text, VideoScript, MoreComments
 
 
 class Reddit:
     def __init__(self):
 
+        self.config = configparser.ConfigParser()
         self.config.read('privateconfig.ini')
         self.client_id = self.config["Reddit"]["CLIENTID"]
         self.client_secret = self.config["Reddit"]["CLIENTSECREAT"]
@@ -15,7 +16,7 @@ class Reddit:
 
     def __getReddit(self):
         return praw.Reddit(
-            client_id=self.client_id, 
+            client_id=self.client_id,
             client_secret=self.client_secret,
             # user_agent sounds scary, but it's just a string to identify what your using it for
             # It's common courtesy to use something like <platform>:<name>:<version> by <your name>
