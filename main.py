@@ -10,7 +10,7 @@ class RedditToYoutube:
 
         self.bgDir = self.config["General"]["BackgroundDirectory"]
         self.bgPrefix = self.config["General"]["BackgroundFilePrefix"]
-        self.bgCount = int(self.config["General"]["BackgroundVideos"])
+        self.bgCount = len(os.listdir(self.bgDir)) - 1
 
         self.bitrate = self.config["Video"]["Bitrate"]
         self.threads = self.config["Video"]["Threads"]
@@ -61,6 +61,7 @@ class RedditToYoutube:
         self.screenshot.getPostScreenshots(fileName, script)
 
         # Setup background clip
+        if self.bgCount == 0: print(f"Insifficient Background Videos Avaiable in the directory \"{self.bgDir}\"")
         bgIndex = random.randint(1, self.bgCount)
         backgroundVideo = VideoFileClip(
             filename=f"{self.bgDir}/{self.bgPrefix}{bgIndex}.mp4",
