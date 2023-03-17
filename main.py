@@ -146,7 +146,7 @@ class RedditToYoutube:
 
 class App:
     def run(self):
-        app = RedditToYoutube(channel_index = 2)
+        app = RedditToYoutube(channel_index = 1)
         app.youtube.upload_leftover(app.channel_index)
         app.createVideo()
 

