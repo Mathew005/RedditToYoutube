@@ -31,6 +31,7 @@ class VideoScript:
         wordCount = len(text.split())
         if len(self.frames) > 5: return True
         if text == "[removed]":return True
+        if text == "[deleted]":return True
         if (wordCount > MAX_WORDS_PER_COMMENT):return True
         frame = ScreenshotScene(text, commentId)
         frame.audioClip = self.__createVoiceOver(commentId, text)

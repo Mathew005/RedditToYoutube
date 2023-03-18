@@ -71,7 +71,7 @@ class RedditToYoutube:
         backgroundVideo = vfx.loop(
             backgroundVideo, duration=script.getDuration())
         w, h = backgroundVideo.size
-
+    
         # Create video clips
         print("Editing clips together...")
         clips = []
@@ -146,8 +146,8 @@ class RedditToYoutube:
 
 class App:
     def run(self):
-        app = RedditToYoutube(channel_index = 2)
-        app.youtube.upload_leftover(app.channel_index)
+        app = RedditToYoutube(channel_index = 1)
+        if app.youtube.upload_leftover(app.channel_index): return
         app.createVideo()
 
 if __name__ == "__main__":

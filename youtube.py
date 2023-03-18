@@ -266,4 +266,5 @@ class Youtube:
                 self.select_channel(channel_index)
                 self.upload(file)
                 self.driver.driver.minimize_window()
+                return True
             break
