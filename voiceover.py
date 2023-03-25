@@ -1,6 +1,9 @@
-from imports import pyttsx3, random
+from imports import pyttsx3, random, configparser, os
 
-voiceoverDir = "Voiceovers"
+config = configparser.ConfigParser()
+config.read('config.ini')
+voiceoverDir = config["General"]["VoiceoverDir"]
+if not os.path.isdir(voiceoverDir): os.makedirs(voiceoverDir)
 
 def create_voice_over(fileName, text):
     filePath = f"{voiceoverDir}/{fileName}.mp3"

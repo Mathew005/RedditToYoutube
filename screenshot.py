@@ -1,11 +1,15 @@
-from imports import time
+from imports import time, configparser, os
 from imports import TimeoutException, ElementNotInteractableException, NoSuchElementException
 from imports import EC, WebDriverWait, By
 
 class Screenshot:
     def __init__(self, driver):
         # Config
-        self.screenshotDir = "Screenshots"
+        self.config = configparser.ConfigParser()
+        self.config.read('config.ini')
+        self.screenshotDir = self.config["General"]["ScreenshotDir"]
+        if not os.path.isdir(self.screenshotDir): os.makedirs(self.screenshotDir)
+        # self.screenshotDir = "Screenshots"
         self.screenWidth = 400
         self.screenHeight = 800
         self.attempt = 0

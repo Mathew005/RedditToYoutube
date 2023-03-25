@@ -7,6 +7,7 @@ class RedditToYoutube:
         self.config = configparser.ConfigParser()
         self.config.read('config.ini')
         self.outputDir = self.config["General"]["OutputDirectory"]
+        if not os.path.isdir(self.outputDir): os.makedirs(self.outputDir)
 
         self.bgDir = self.config["General"]["BackgroundDirectory"]
         self.bgPrefix = self.config["General"]["BackgroundFilePrefix"]
