@@ -107,7 +107,7 @@ class RedditToYoutube:
 
         # Preview in VLC for approval before uploading
         if (self.config["General"].getboolean("PreviewBeforeUpload")):
-            vlcPath = self.config["General"]["VLCPath"]
+            vlcPath = self.config["General"]["VideoPlayerPath"]
             p = subprocess.Popen([vlcPath, outputFile])
             print("Waiting for video review. Type anything to continue")
             wait = input("[0] Upload\n[1] Ignore\n[2] Delete\n[3] Redo\n[4] Exit Program\n")
@@ -143,6 +143,7 @@ class RedditToYoutube:
             if os.path.getsize(f'{self.outputDir}\{file}') == 0:
                 continue
             self.youtube.upload(file)
+            
             print('Completed Uploading.. ')
 
 class App:
