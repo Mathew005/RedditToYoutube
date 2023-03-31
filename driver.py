@@ -15,7 +15,8 @@ class Driver:
         self.driver = webdriver.Chrome(
             executable_path=ChromeDriverManager().install(), options=self.options)
 
-        # self.driver.minimize_window()
+        self.driver.minimize_window()
+        
 
         self.watch_link = 'https://www.youtube.com/watch?v=%s'
 

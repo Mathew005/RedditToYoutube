@@ -2,12 +2,14 @@ from imports import ImageClip, VideoFileClip, CompositeVideoClip, concatenate_vi
 from imports import time, subprocess, random, configparser, sys, os
 from imports import Reddit, Driver, Youtube, Screenshot
 
+
 class RedditToYoutube:
     def __init__(self, channel_index):
         self.config = configparser.ConfigParser()
         self.config.read('config.ini')
         self.outputDir = self.config["General"]["OutputDirectory"]
-        if not os.path.isdir(self.outputDir): os.makedirs(self.outputDir)
+        if not os.path.isdir(self.outputDir):
+            os.makedirs(self.outputDir)
 
         self.bgDir = self.config["General"]["BackgroundDirectory"]
         self.bgPrefix = self.config["General"]["BackgroundFilePrefix"]
@@ -58,11 +60,15 @@ class RedditToYoutube:
         # fileName = fileName + "\"%s\""%script.title
         # print(fileName)
 
+        self.driver.show_window()
+
         # Create screenshots
         self.screenshot.getPostScreenshots(fileName, script)
 
         # Setup background clip
-        if self.bgCount == 0: print(f"Insifficient Background Videos Avaiable in the directory \"{self.bgDir}\"")
+        if self.bgCount == 0:
+            print(
+                f"Insifficient Background Videos Avaiable in the directory \"{self.bgDir}\"")
         bgIndex = random.randint(1, self.bgCount)
         backgroundVideo = VideoFileClip(
             filename=f"{self.bgDir}/{self.bgPrefix}{bgIndex}.mp4",
@@ -72,7 +78,7 @@ class RedditToYoutube:
         backgroundVideo = vfx.loop(
             backgroundVideo, duration=script.getDuration())
         w, h = backgroundVideo.size
-    
+
         # Create video clips
         print("Editing clips together...")
         clips = []
@@ -110,10 +116,11 @@ class RedditToYoutube:
             vlcPath = self.config["General"]["VideoPlayerPath"]
             p = subprocess.Popen([vlcPath, outputFile])
             print("Waiting for video review. Type anything to continue")
-            wait = input("[0] Upload\n[1] Ignore\n[2] Delete\n[3] Redo\n[4] Exit Program\n")
+            wait = input(
+                "[0] Upload\n[1] Ignore\n[2] Delete\n[3] Redo\n[4] Exit Program\n")
             wait = int(wait) if wait.isdigit() else 0
             if wait == 1:
-                self.youtube.dummyFile(fileName+'.mp4')
+                self.youtube.dummyFile(f"{self.outputDir}/{fileName}.mp4")
                 print("The Video Has Been Ignored")
                 return
             if wait == 2:
@@ -138,20 +145,23 @@ class RedditToYoutube:
 
         self.youtube.login()
         self.youtube.select_channel(self.channel_index)
-        
+
         for file in os.listdir(f'{self.outputDir}'):
             if os.path.getsize(f'{self.outputDir}\{file}') == 0:
                 continue
             self.youtube.upload(file)
-            
+
             print('Completed Uploading.. ')
+
 
 class App:
     def run(self):
-        app = RedditToYoutube(channel_index = 2)
-        if app.youtube.upload_leftover(app.channel_index): return
+        app = RedditToYoutube(channel_index=2)
+        if app.youtube.upload_leftover(app.channel_index):
+            return
         app.createVideo()
 
+
 if __name__ == "__main__":
-    app = App()    
+    app = App()
     app.run()
